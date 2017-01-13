@@ -1,0 +1,76 @@
+@(currentPage: com.avaje.ebean.PagedList[Product])
+@main("Products Catalogue"){
+
+    <h2>All Products </h2>
+<script>
+function del(urlToDelete) {
+    $.ajax({
+        url: urlToDelete,
+        type: 'DELETE',
+        success: function(results) {
+}
+});
+}
+</script>
+
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>EAN</th>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+    @for(product <- currentPage.getList()) {
+
+        <tr>
+            <td><a href="@routes.ProductsController.details(product)"> @product.ean</a></td>
+            <td><a href="@routes.ProductsController.details(product)"> @product.name</a></td>
+            <td><a href="@routes.ProductsController.details(product)"> @product.description</a></td>
+            <td><a href="@routes.ProductsController.details(product)"><i class="glyphicon glyphicon-pencil"></i></a>
+            <a onclick="del('@routes.ProductsController.delete(product.ean)')"><i class="glyphicon glyphicon-trash"></i></a></td>
+
+        </tr>
+    }
+
+</tbody>
+</table>
+    <a href="@routes.ProductsController.newProduct()" class="btn">
+        <i class="glyphicon glyphicon-plus"></i> New product</a>
+
+    <div id="pagination" class="pagination">
+        <ul class="pagination">
+        @if(currentPage.hasPrev) {
+            <li class="prev">
+                <a
+                href="@routes.ProductsController.list(currentPage.getPageIndex-1)">
+                        &larr; </a>
+            </li>
+
+        } else {
+
+            <li class="prev disabled">
+                <a>&larr;</a>
+            </li>
+        }<li class="current">
+            <a>@currentPage.getDisplayXtoYofZ(" - "," / ")</a>
+        </li>
+            @if(currentPage.hasNext) {
+                <li class="next">
+                    <a
+                    href="@routes.ProductsController.list(currentPage.getPageIndex+1)">
+                            &rarr;</a>
+                </li>
+            } else {
+                <li class="next disabled">
+                    <a>&rarr;</a>
+                </li>
+            }
+        </ul>
+    </div>
+
+
+
+}

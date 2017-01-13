@@ -1,0 +1,12 @@
+@*
+ * This template takes a single argument, a String containing a
+ * message to display.
+ *@
+@(message: String)
+@main("live streaming") {
+
+    <p>
+        <iframe id="messages" style="width: 100%;height:100%"
+        src="@routes.ApplicationController.index()"></iframe>
+    </p>
+}
